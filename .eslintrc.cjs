@@ -12,10 +12,16 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+    'quotes': [2, 'single', { 'avoidEscape': true }],
     'react/jsx-no-target-blank': 'off',
     'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
+    'semi': ['error', 'always'],
+    // we use 2 spaces to indent our code
+    'indent': ['error', 2],
+    // we want to avoid extraneous spaces
+    'no-multi-spaces': ['error']
   },
 }

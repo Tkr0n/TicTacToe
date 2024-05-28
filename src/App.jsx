@@ -1,69 +1,40 @@
 import { useState } from 'react';
+import { TURNS } from './constants';
+import { Square } from './components/square';
+import { checkWinner, checkEndGame } from './logic/board';
+import { saveGameToStorage, restartGameStorage } from './logic/storage/index.js';
 import confetti from 'canvas-confetti';
-import './index.css'
-
-const TURNS = {
-  '❌': '❌',
-  '⭕': '⭕'
-};
-
-const WINNER_COMBOS = [
-  [0,1,2],
-  [3,4,5],
-  [6,7,8],
-  [0,3,6],
-  [1,4,7],
-  [2,5,8],
-  [0,4,8],
-  [2,4,6]
-]
-
-const Square = ({children, isSelected, updateBoard, index}) => {
-  
-  const ClassName = `square ${isSelected == true ? 'is-selected' : ''}`
-  
-  const handleClick = () => {
-    updateBoard(index);
-  }
-
-  return(
-    <div onClick={handleClick} className={ClassName}>
-      {children}
-    </div>
-  );
-}
+import './index.css';
 
 export default function App() {
-  
+
+  const [board, setBoard] = useState(() => {
+    
+    const boardFromStorage = window.localStorage.getItem('board');
+    
+    if (boardFromStorage) return JSON.parse(boardFromStorage);
+    
+    return Array(9).fill(null);
+  });
+
+  const [turn, setTurn] = useState(() => {
+    
+    const turnFromStorage = window.localStorage.getItem('turn');
+    
+    return turnFromStorage ?? TURNS['❌'];
+  });
+
+  // null es que no hay ganador, false es que hay un empate
   const [winner, setWinner] = useState(null);
-  const [turn, setTurn] = useState(TURNS['❌']);
-  const [board, setBoard] = useState(Array(9).fill(null));
 
   const restartGame = () => {
     
     setWinner(null);
     setTurn(TURNS['❌']);
     setBoard(Array(9).fill(null));
-  }
-  
-  const checkWinner = (boardToCheck) => {
-    
-    for(const combo of WINNER_COMBOS){
-      
-      const [a,b,c] = combo;
 
-      if(boardToCheck[a] && boardToCheck[a] === boardToCheck[b] && boardToCheck[a] === boardToCheck[c]){
-        return boardToCheck[a];
-      }
-    }
-
-    return null;
-  }
-
-  const checkEndGame = (gameToCheck) => {
-    
-    return gameToCheck.every(position => position !== null);
-  }
+    restartGameStorage();
+  };
   
   const updateBoard = (index) => {
     if(board[index] || winner) return;
@@ -87,8 +58,12 @@ export default function App() {
       
       const newTurn = turn === TURNS['❌'] ? TURNS['⭕'] : TURNS['❌'];
       setTurn(newTurn);
+      saveGameToStorage({
+        board: newBoard,
+        turn: newTurn
+      });
     }
-  }
+  };
 
   return (
     <main className="board">
@@ -143,7 +118,7 @@ export default function App() {
       }
 
     </main>
-  )
+  );
 }
 
 
