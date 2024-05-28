@@ -1,5 +1,5 @@
-/* eslint-disable-next-line react/prop-types, no-unused-vars */
-const Square = ({children, isSelected, updateBoard, index}) => {
+/* eslint-disable-next-line react/prop-types */
+export function Square({children, isSelected, updateBoard, index}) {
   
   const ClassName = `square ${isSelected == true ? 'is-selected' : ''}`;
     
@@ -12,4 +12,4 @@ const Square = ({children, isSelected, updateBoard, index}) => {
       {children}
     </div>
   );
-};
+}

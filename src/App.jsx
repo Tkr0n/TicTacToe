@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { TURNS } from './constants';
-import { Square } from './components/square';
-import { checkWinner, checkEndGame } from './logic/board';
+import { TURNS } from './constants.js';
+import { Square } from './components/square.jsx';
+import { checkWinner, checkEndGame } from './logic/board.js';
 import { saveGameToStorage, restartGameStorage } from './logic/storage/index.js';
 import confetti from 'canvas-confetti';
 import './index.css';
