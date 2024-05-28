@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import {WINNER_COMBOS} from './constants';
+import {WINNER_COMBOS} from '../constants';
 
-const checkWinner = (boardToCheck) => {
+export const checkWinner = (boardToCheck) => {
     
   for(const combo of WINNER_COMBOS){
       
@@ -15,7 +15,7 @@ const checkWinner = (boardToCheck) => {
   return null;
 };
 
-const checkEndGame = (gameToCheck) => {
+export const checkEndGame = (gameToCheck) => {
     
   return gameToCheck.every(position => position !== null);
 };
